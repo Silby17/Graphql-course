@@ -1,4 +1,4 @@
-import uuidv4 from 'uuid/v4'
+import uuidv4 from 'uuid'
 
 const Mutation = {
     createUser(parent, args, ctx, info) {
@@ -167,7 +167,6 @@ const Mutation = {
             throw new Error('Comment does not exist')
         }
         const [removedComment] = ctx.db.demoComments.splice(commentIndex, 1)
-        console.log(args.data)
         ctx.pubSub.publish(`comment-${removedComment.post}`, {
             comment: {
                 mutation: 'DELETED',
