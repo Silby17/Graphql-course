@@ -1,43 +1,33 @@
 const Query = {
     users(parent, args, ctx, info) {
-        if (!args.query) {
-            return ctx.db.demoUsers
-        }
-        return ctx.db.demoUsers.filter((user) => {
-            return user.name.toLowerCase().includes(args.query.toLowerCase())
-        })
-    },
-    posts(parent, args, ctx, info) {
-        if (!args.query) {
-            return ctx.db.demoPosts
-        }
-        return ctx.db.demoPosts.filter((post) => {
-            const titleMatch = post.title.toLowerCase().includes(args.query.toLowerCase())
-            const bodyMatch = post.body.toLowerCase().includes(args.query.toLowerCase())
+        let opArgs = {}
 
-            return titleMatch || bodyMatch
-        })
-    },
-    comments(parent, args, ctx, info) {
-        if (!args.query) {
-            return ctx.db.demoComments
+        if (args.query) {
+            opArgs.where = {
+                OR: [{
+                    name_contains: args.query
+                }, {
+                    email_contains: args.query
+                }]
+            }
         }
+        return ctx.prisma.query.users(opArgs, info)
     },
-    me() {
-        return {
-            id: 'abc-123',
-            name: 'Yossi Silberhaft',
-            age: 29,
-            email: 'yossi@gmail.com'
+
+    posts(parent, args, {prisma}, info) {
+        let opArgs = {}
+
+        if (args.query) {
+            opArgs.where = {
+                OR: [{
+                    title_contains: args.query
+                }, {body_contains: args.query}]
+            }
         }
+        return prisma.query.posts(opArgs, info)
     },
-    post() {
-        return {
-            id: '1234',
-            title: 'My First Blog post',
-            body: 'Welcome to my blog',
-            published: false
-        }
+    comments(parent, args, {prisma}, info) {
+        return prisma.query.comments(null, info)
     }
 }
 

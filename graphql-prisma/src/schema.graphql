@@ -11,10 +11,10 @@ type Mutation {
     updateUser(id: ID!, data: UpdateUserInput): User!
     createPost(data: CreatePostInput): Post!
     deletePost(id: ID!): Post!
-    updatePost(id: ID!, data: UpdatePostInput): Post!
-    createComment(data: CreateCommentInput): Comment!
+    updatePost(id: ID!, data: UpdatePostInput!): Post!
+    createComment(data: CreateCommentInput!): Comment!
     deleteComment(id: ID!): Comment!
-    updateComment(id: ID!, data: UpdateCommentInput): Comment!
+    updateComment(id: ID!, data: UpdateCommentInput!): Comment!
 }
 
 type Subscription {
@@ -24,12 +24,10 @@ type Subscription {
 input CreateUserInput {
     name: String!
     email: String!
-    age: Int
 }
 input UpdateUserInput {
     name: String
     email: String
-    age: Int
 }
 
 input CreatePostInput {
@@ -46,8 +44,8 @@ input UpdatePostInput {
 }
 input CreateCommentInput {
     body: String!
-    post: ID!
     author: ID!
+    post: ID!
 }
 input UpdateCommentInput {
     body: String
@@ -57,9 +55,7 @@ input UpdateCommentInput {
 type User {
     id: ID!
     name: String!
-    age: Int
     email: String!
-    employed: Boolean
     posts: [Post!]!
     comments: [Comment!]!
 }
@@ -75,7 +71,7 @@ type Comment {
     id: ID!
     body: String!
     post: Post!
-    author: User
+    author: User!
 }
 
 enum MutationType {
