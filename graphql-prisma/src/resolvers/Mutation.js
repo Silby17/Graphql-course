@@ -15,7 +15,6 @@ const Mutation = {
     },
 
     async createPost(parent, args, ctx, info) {
-        console.log(args.data)
         return ctx.prisma.mutation.createPost({
             data: {
                 title: args.data.title,
@@ -45,8 +44,7 @@ const Mutation = {
         }, info)
     },
 
-    createComment(parent, args, ctx, info) {
-        console.log(args)
+    async createComment(parent, args, ctx, info) {
         return ctx.prisma.mutation.createComment({
             data: {
                 body: args.data.body,
@@ -63,14 +61,14 @@ const Mutation = {
             }
         }, info)
     },
-    deleteComment(parent, args, ctx, info) {
+    async deleteComment(parent, args, ctx, info) {
         return ctx.prisma.mutation.deleteComment({
             where: {
                 id: args.id
             }
         }, info)
     },
-    updateComment(parent, args, ctx, info) {
+    async updateComment(parent, args, ctx, info) {
         return ctx.prisma.mutation.updateComment({
             where: {
                 id: args.id
