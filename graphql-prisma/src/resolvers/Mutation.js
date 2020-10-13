@@ -3,8 +3,10 @@ import getUserId from '../utils/getUserId'
 import generateToken from '../utils/generateToken'
 import hashPassword from '../utils/hashPassword'
 
-// Note, in some places I destructured the context but in the Comment mutations
-// I am using the context (ctx) object as is
+/**
+ * Note, in some places I destructured the context but in the Comment mutations
+ * I am using the context (ctx) object as is
+ */
 const Mutation = {
     async createUser(parent, args, {prisma}, info) {
         const password = await hashPassword(args.data.password)
